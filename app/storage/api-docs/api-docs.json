@@ -1,0 +1,235 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Reminders API",
+        "description": "API for managing reminders",
+        "contact": {
+            "name": "irfanrifai.com",
+            "email": "hellol@irfanrifai.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/reminders": {
+            "get": {
+                "tags": [
+                    "Reminders"
+                ],
+                "summary": "Get list of reminders",
+                "operationId": "getRemindersList",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Reminders"
+                ],
+                "summary": "Store a new reminder",
+                "operationId": "storeReminder",
+                "requestBody": {
+                    "description": "Data Form",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "remind_at",
+                                    "event_at"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Example Title"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Example Description"
+                                    },
+                                    "remind_at": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "1702787876"
+                                    },
+                                    "event_at": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "1702787876"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/v1/reminders/{id}": {
+            "get": {
+                "tags": [
+                    "Reminders"
+                ],
+                "summary": "Get reminder information",
+                "operationId": "getReminderById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Reminder ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Reminder not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Reminders"
+                ],
+                "summary": "Update an existing reminder",
+                "operationId": "updateReminder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Reminder ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data Form",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "remind_at",
+                                    "event_at"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Updated Title"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "text",
+                                        "example": "Updated Description"
+                                    },
+                                    "remind_at": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "1702787876"
+                                    },
+                                    "event_at": {
+                                        "type": "integer",
+                                        "format": "text",
+                                        "example": "1702787876"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Reminder not found"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Reminders"
+                ],
+                "summary": "Delete a reminder",
+                "operationId": "deleteReminder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Reminder ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Reminder not found"
+                    }
+                }
+            }
+        }
+    }
+}

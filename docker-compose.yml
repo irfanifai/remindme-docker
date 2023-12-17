@@ -1,0 +1,64 @@
+version: "3.9"
+services:
+  # LARAVEL PHP SERVICE
+  app:
+    image: bahaso/php81-mongo-mariadb:1.0.0
+    mem_limit: 2000m
+    mem_reservation: 256m
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      FOLDER_APP: app
+      USER_APP: user
+      UID_APP: 1000
+      SERVICE_NAME: myapp
+      SERVICE_TAGS: dev
+      MY_SITE: "this is my app"
+    working_dir: /var/www/html/app
+    volumes:
+      - ./app:/var/www/html/app
+      - ./settings/php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+    networks:
+      - myapp_network
+
+  # Nginx server configuration
+  web:
+    image: nginx:stable
+    container_name: app-webserver
+    restart: unless-stopped
+    depends_on:
+      - database-mariadb
+      - app
+    volumes:
+      - ./app:/var/www/html/app
+      - ./settings/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./settings/ssl:/etc/nginx/ssl
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - NGINX_HOST=remindme.test
+    networks:
+      - myapp_network
+  # MariaDB configuration
+  database-mariadb:
+    image: mariadb
+    mem_limit: 2000m
+    mem_reservation: 256m
+    container_name: myapp-mariadb
+    restart: unless-stopped
+    environment:
+      - MARIADB_DATABASE=myapp
+      - MARIADB_ROOT_PASSWORD=12345!
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/maria/dbdata:/var/lib/mysql
+    networks:
+      - myapp_network
+
+networks:
+  myapp_network:
+    name: myapp_network

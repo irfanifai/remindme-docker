@@ -1,0 +1,21 @@
+.createUser {
+    width: 80px !important;
+    height: 800px !important;
+    margin-left: 5px;
+    margin-top: 30px;
+    background-size: cover !important;
+}
+
+.editUser {
+    width: 230px;
+    margin-left: 1px;
+    margin-top: 30px;
+}
+
+.createPost {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 330px;
+    padding-top: 30px;
+}
