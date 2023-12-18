@@ -5,14 +5,14 @@ services:
     image: bahaso/php81-mongo-mariadb:1.0.0
     mem_limit: 2000m
     mem_reservation: 256m
-    container_name: app
+    container_name: app-remindme
     restart: unless-stopped
     tty: true
     environment:
       FOLDER_APP: app
       USER_APP: user
       UID_APP: 1000
-      SERVICE_NAME: myapp
+      SERVICE_NAME: myapp-remindme
       SERVICE_TAGS: dev
       MY_SITE: "this is my app"
     working_dir: /var/www/html/app
@@ -25,7 +25,7 @@ services:
   # Nginx server configuration
   web:
     image: nginx:stable
-    container_name: app-webserver
+    container_name: app-webserver-remindme
     restart: unless-stopped
     depends_on:
       - database-mariadb
@@ -47,7 +47,7 @@ services:
     image: mariadb
     mem_limit: 2000m
     mem_reservation: 256m
-    container_name: myapp-mariadb
+    container_name: myapp-mariadb-remindme
     restart: unless-stopped
     environment:
       - MARIADB_DATABASE=myapp
